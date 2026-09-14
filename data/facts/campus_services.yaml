@@ -1,0 +1,101 @@
+# campus_services.yaml
+#
+# This is Munir's ONLY source of truth for facts (fees, deadlines, documents).
+# Equivalent to Murshid's data/service_directory.yaml.
+#
+# Rule: the assistant may NEVER state a fee, date, or requirement that isn't
+# written here, word for word. This file is what gets rendered into the
+# system prompt (see src/munir/domain/facts.py), and it's also what the
+# groundedness checker compares the model's answer against.
+#
+# Add more entries as your project grows -- keep each one self-contained.
+
+services:
+  - id: admissions_undergrad
+    title:
+      en: Undergraduate admissions application
+      ar: طلب القبول لبرنامج البكالوريوس
+    fee:
+      en: SAR 100 non-refundable application fee
+      ar: رسوم تقديم غير قابلة للاسترداد بقيمة 100 ريال
+    deadline:
+      en: Applications close on July 15 for the Fall semester
+      ar: يُغلق باب التقديم في 15 يوليو للفصل الخريفي
+    documents:
+      en: [High school transcript, National ID or passport, English proficiency certificate]
+      ar: [كشف درجات الثانوية العامة, الهوية الوطنية أو جواز السفر, شهادة إتقان اللغة الإنجليزية]
+    processing_time:
+      en: Decisions are released within 4 weeks of the deadline
+      ar: تصدر القرارات خلال 4 أسابيع من الموعد النهائي
+
+  - id: enrollment_add_drop
+    title:
+      en: Add/drop period for course enrollment
+      ar: فترة إضافة وحذف المقررات
+    fee:
+      en: No fee for add/drop within the first two weeks of the semester
+      ar: لا توجد رسوم للإضافة والحذف خلال أول أسبوعين من الفصل الدراسي
+    deadline:
+      en: The add/drop window closes 14 calendar days after semester start
+      ar: تُغلق فترة الإضافة والحذف بعد 14 يومًا تقويميًا من بداية الفصل
+    documents:
+      en: [Student ID, Advisor approval for restricted courses]
+      ar: [الهوية الجامعية, موافقة المرشد الأكاديمي للمقررات المقيدة]
+    processing_time:
+      en: Enrollment changes reflect on the student portal within 24 hours
+      ar: تظهر تغييرات التسجيل في البوابة خلال 24 ساعة
+
+  - id: official_transcript
+    title:
+      en: Official transcript request
+      ar: طلب كشف الدرجات الرسمي
+    fee:
+      en: SAR 50 per official transcript copy
+      ar: 50 ريال لكل نسخة رسمية من كشف الدرجات
+    deadline:
+      en: No deadline -- available on demand for enrolled or graduated students
+      ar: لا يوجد موعد نهائي -- متاح عند الطلب للطلاب المسجلين أو الخريجين
+    documents:
+      en: [Student ID, Written consent if requested by a third party]
+      ar: [الهوية الجامعية, موافقة خطية إذا طلبتها جهة ثالثة]
+    processing_time:
+      en: Processed within 3 working days
+      ar: تتم المعالجة خلال 3 أيام عمل
+
+  - id: advisor_appointment
+    title:
+      en: Academic advisor appointment booking
+      ar: حجز موعد مع المرشد الأكاديمي
+    fee:
+      en: No fee -- advising appointments are free for enrolled students
+      ar: بدون رسوم -- مواعيد الإرشاد مجانية للطلاب المسجلين
+    deadline:
+      en: Appointments must be booked at least 24 hours in advance
+      ar: يجب حجز المواعيد قبل 24 ساعة على الأقل
+    documents:
+      en: [Student ID]
+      ar: [الهوية الجامعية]
+    processing_time:
+      en: Confirmation is sent immediately upon booking
+      ar: يُرسل التأكيد فور إتمام الحجز
+
+  - id: tuition_undergrad
+    title:
+      en: Undergraduate tuition, per semester
+      ar: الرسوم الدراسية لبرنامج البكالوريوس لكل فصل
+    fee:
+      en: SAR 9,000 per semester for full-time enrollment (12+ credit hours)
+      ar: 9000 ريال لكل فصل دراسي للتسجيل بدوام كامل (12 ساعة معتمدة فأكثر)
+    deadline:
+      en: Tuition is due within 10 days of enrollment confirmation
+      ar: تُستحق الرسوم خلال 10 أيام من تأكيد التسجيل
+    documents:
+      en: [Enrollment confirmation, Payment receipt]
+      ar: [تأكيد التسجيل, إيصال الدفع]
+    processing_time:
+      en: Payment reflects on the student account within 1 working day
+      ar: ينعكس الدفع في الحساب الطلابي خلال يوم عمل واحد
+
+service_centre:
+  en: the Registrar's Office (Building 3, Room 210) or registrar@example.edu
+  ar: مكتب القبول والتسجيل (المبنى 3، الغرفة 210) أو registrar@example.edu

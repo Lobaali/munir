@@ -1,0 +1,73 @@
+# munir.yaml is the ONE file that decides which model answers which alias,
+# and what each model costs. Modeled on Murshid's configs/murshid.yaml.
+
+primary_route: primary
+fallback_route: open_weight
+cheap_route: cheap
+
+routes:
+  primary:
+    dialect: openai
+    backend: mock                       # mock | real  (see munir/app.py)
+    base_url: http://127.0.0.1:8080/v1  # only used when backend: real
+    api_key_env: MUNIR_PRIMARY_API_KEY  # env var name, never a literal key
+    aliases:
+      munir-default: campus-flagship
+      munir-guard: campus-cheap
+      munir-router: campus-cheap
+
+  cheap:
+    dialect: openai
+    backend: mock
+    base_url: http://127.0.0.1:8080/v1
+    api_key_env: MUNIR_CHEAP_API_KEY
+    aliases:
+      munir-default: campus-cheap
+
+  open_weight:
+    dialect: openai
+    backend: mock
+    base_url: http://127.0.0.1:8000/v1  # where a real vLLM server would live
+    api_key_env: MUNIR_OPENWEIGHT_API_KEY
+    aliases:
+      munir-default: campus-onprem
+
+# Sourced Sept 2026: see README.md "Cost sources" for links + dates.
+prices:
+  models:
+    campus-flagship:
+      # modeled on GPT-5.6 Sol (OpenAI), $4.00/$20.00 USD per MTok,
+      # promotional rate as of Sept 2026 -- source: benchlm.ai/openai/api-pricing,
+      # creditforstartups.com/pricing/openai-api-pricing 
+      input_per_mtok: 15.00     # $4.00 * 3.75 SAR/USD
+      output_per_mtok: 75.00    # $20.00 * 3.75
+      cached_input_per_mtok: 1.50  # OpenAI cached input = 10% of standard input rate
+    campus-cheap:
+      # modeled on GPT-5.6 Luna (OpenAI), $0.20/$1.20 USD per MTok --
+      # same sources
+      input_per_mtok: 0.75      # $0.20 * 3.75
+      output_per_mtok: 4.50     # $1.20 * 3.75
+      cached_input_per_mtok: 0.075
+    campus-onprem:
+      # self-hosted: no per-token price sheet, only a GPU bill -- see
+      # scripts/breakeven.py, which DERIVES this number from a real, sourced
+      # GPU rental rate (RunPod L4, $0.39/hr, source: runpod.io/product/cloud-gpus,) 
+      # The figure below is scripts/breakeven.py's own illustrative default;
+      # re-run it with YOUR measured tokens/sec before trusting this number.
+      input_per_mtok: 1.82
+      output_per_mtok: 1.82
+      cached_input_per_mtok: 1.82
+
+guards:
+  max_input_chars: 4000
+  classifier_alias: munir-guard
+  classifier_enabled: true
+  canary: "⟦MUNIR-a91c⟧"
+
+cache:
+  enabled: true
+  backend: memory
+
+pipeline:
+  max_history_turns: 8
+  max_tool_iterations: 6

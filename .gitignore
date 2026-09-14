@@ -1,0 +1,22 @@
+# secrets
+.env
+*.env
+*api_key*
+
+# python
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+venv/
+.venv/
+
+# notebooks
+.ipynb_checkpoints/
+
+# eval run outputs (keep baseline.json, ignore ad-hoc runs)
+eval/out/*.json
+!eval/out/.gitkeep
+
+# OS
+.DS_Store
