@@ -1,10 +1,12 @@
 # Munir (منير) — Campus Services Assistant
 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Lobaali/munir/blob/main/notebook/munir_run_all.ipynb)
+
 **SDAIA Academy Capstone — SDA-AIE-213: LLM Application Engineering**
 
 ## Programme
 
-Completed under SDAIA Academy — SDA-AIE-213: Large Language Model Application Engineering, 13–16 Sep, 2026.
+Completed under SDAIA Academy: Large Language Model Application Engineering, 13–16 Sep, 2026.
 
 Programme repository: https://github.com/SDAIAAcademy
 
@@ -26,17 +28,21 @@ A bilingual (Arabic/English) campus-services assistant for admissions, enrollmen
 
 **No local API key is required by default.**
 
-The recommended entry point is:
+The single entry point is the **"Open in Colab" badge above**. It opens
+`notebook/munir_run_all.ipynb` directly from this repository. The first
+cell detects that it is running in a fresh Colab runtime, clones this repo
+into `/content/munir`, and proceeds automatically — no local setup step is
+required first.
+
+From there, select:
 
 ```text
-notebook/munir_run_all.ipynb
+Runtime → Run all
 ```
 
-Open the notebook in Jupyter or Google Colab and select:
-
-```text
-Kernel → Restart Kernel and Run All
-```
+(Opening the same notebook locally in Jupyter works too: select
+`Kernel → Restart Kernel and Run All` instead — the first cell detects it
+is not in Colab and uses the existing local checkout.)
 
 The notebook runs the project end-to-end, including:
 
