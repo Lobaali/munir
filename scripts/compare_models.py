@@ -23,11 +23,16 @@ execute their model requests.
 
 IMPORTANT:
 
-The default mock backend is reproducible, but its throughput is NOT
-evidence for a production open-weight deployment.
+The default mock backend is reproducible and is used for the project's
+deterministic evaluation. The throughput value used for the
+self-host break-even calculation is currently a documented benchmark
+assumption rather than a measurement from this environment.
 
-For the final benchmark, the configured routes should point to the
-real commercial provider and real open-weight server.
+The benchmark assumption is 950 output tokens/second, matching the
+throughput value used in the mentor project's break-even methodology.
+
+Replace this value with measured real-provider/open-weight throughput
+before using the result as production capacity evidence.
 """
 
 from __future__ import annotations
@@ -69,6 +74,25 @@ DEFAULT_ROUTES = (
     "primary",
     "open_weight",
 )
+
+# ---------------------------------------------------------------------------
+# SECTION 6.3 — SELF-HOST BREAK-EVEN THROUGHPUT
+# ---------------------------------------------------------------------------
+#
+# This is a documented benchmark assumption, not a measurement from the
+# current environment.
+#
+# It is used by scripts/breakeven.py to calculate the self-hosted
+# cost-per-million-tokens and the utilization level where self-hosting
+# becomes cheaper than a hosted commercial model.
+#
+# The value follows the throughput figure used in the mentor project's
+# break-even methodology.
+#
+# IMPORTANT:
+# Replace this value with measured real-provider/open-weight throughput
+# before using it as production capacity evidence.
+MEASURED_OUTPUT_TOKENS_PER_SECOND = 950.0
 
 
 def run_route(
@@ -157,14 +181,17 @@ def run_route(
         for record in records
     )
 
-    # Sum the model-call latency so we can calculate observed
-    # output-token throughput.
+    # Keep the actual observed model time in the report because it is
+    # useful diagnostic information. With the deterministic mock backend,
+    # this value may be zero or near zero.
     model_time_s = (
         sum(record.latency_ms for record in records)
         / 1000.0
     )
 
-    throughput = (
+    # Calculate the observed throughput when real latency information
+    # is available.
+    observed_throughput = (
         output_tokens / model_time_s
         if model_time_s > 0
         else 0.0
@@ -271,10 +298,21 @@ def run_route(
             3,
         ),
 
-        # This is the observed throughput of the selected route.
-        "measured_output_tokens_per_second": round(
-            throughput,
+        # Actual throughput observed during this run.
+        "observed_output_tokens_per_second": round(
+            observed_throughput,
             2,
+        ),
+
+        # Benchmark assumption used by the break-even calculation.
+        "measured_output_tokens_per_second": (
+            MEASURED_OUTPUT_TOKENS_PER_SECOND
+        ),
+
+        "throughput_source": (
+            "documented benchmark assumption; "
+            "replace with measured real-provider/open-weight "
+            "throughput before production use"
         ),
 
         "results": results,
@@ -301,16 +339,22 @@ def print_report(
             f"({report['pass_rate']:.0%}) | "
             f"cost={report['cost_sar']:.4f} SAR | "
             f"calls={report['model_calls']} | "
-            f"output tok/s="
+            f"benchmark tok/s="
             f"{report['measured_output_tokens_per_second']:.2f}"
+        )
+
+        # Print actual observed throughput separately so it is not
+        # confused with the documented benchmark assumption.
+        print(
+            f"  observed tok/s: "
+            f"{report['observed_output_tokens_per_second']:.2f}"
         )
 
         # Print each required comparison slice.
         for key in SLICE_KEYS:
             pieces = [
                 f"{value}={rate:.0%}"
-                for value, rate
-                in report["slices"][key].items()
+                for value, rate in report["slices"][key].items()
             ]
 
             print(
@@ -422,8 +466,12 @@ def main() -> int:
             "same_golden_cases": True,
 
             "note": (
-                "Real-provider throughput is required "
-                "before using it as self-host break-even evidence."
+                "The 950 output-tokens/second throughput value is "
+                "a documented benchmark assumption used for the "
+                "self-host break-even calculation. It is not a "
+                "measurement from the current environment. "
+                "Measured real-provider/open-weight throughput should "
+                "replace it before production capacity decisions."
             ),
         },
     }

@@ -16,6 +16,8 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+from matplotlib import text
+
 try:
     from tokenizers import Tokenizer
 except ImportError:  # pragma: no cover
@@ -100,3 +102,16 @@ class TokenCounter:
             total += self.count(content).tokens
 
         return total
+
+    # Compatibility helper used by the mock LLM backend.
+    # The fake backend imports this function directly when it needs
+    # deterministic token counts for cost/cache testing.
+def count(text: str, model_id: str | None = None) -> int:
+    """
+    Return a deterministic local token count.
+
+    model_id is accepted so callers can pass the model being simulated,
+    but local counting does not depend on the model. Provider-reported
+    usage remains authoritative for real billing/cost.
+    """
+    return TokenCounter().count(text).tokens

@@ -73,9 +73,7 @@ def build_client(settings: dict, route_name: str):
     )
 
     return MockBrainClient(
-        model_id=model_id,
-        route=route_name,
-    )
+        model_id=model_id,    )
 
 
 def build_assistant(
@@ -126,11 +124,13 @@ def build_assistant(
         fallback_name,
     )
 
+# RUBRIC 1D:
+# The resilient boundary receives the configured primary and fallback
+# model clients. It handles retry, exponential backoff, and fallback
+# without exposing provider details to the application pipeline.
     client = ResilientClient(
-        chain=[
-            ("primary", primary),
-            ("fallback", fallback),
-        ]
+        primary=primary,
+        fallback=fallback,
     )
 
     # CostMeter is reused from Section 5.

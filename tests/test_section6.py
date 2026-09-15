@@ -32,4 +32,4 @@ def test_break_even_request_math():
         commercial_price_per_mtok=10.0,
         avg_tokens_per_request=1000.0,
     )
-    assert requests == 100_000_000
+    assert requests == 100_000

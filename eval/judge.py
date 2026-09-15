@@ -22,6 +22,7 @@ from munir.llm.interfaces import LLMClient
 from munir.pipeline.structured import extract_structured
 from munir.prompts.registry import load_prompt
 
+from pathlib import Path
 
 class JudgeVerdict(BaseModel):
     """Strict wire contract for the judge's answer."""
@@ -55,7 +56,15 @@ def judge_case(
     rather than a code change.
     """
     directory = rendered_directory("ar" if language == "ar" else "en")
-    system = load_prompt("judge_groundedness.v1").render()
+    # Section 4 — LLM judge rubric.
+    # The groundedness rubric is an evaluation artifact, not a versioned
+    # application prompt, so it must be loaded from eval/rubrics.
+    rubric_path = Path(__file__).resolve().parent / "rubrics" / "groundedness.v1.md"
+
+    if not rubric_path.exists():
+        raise FileNotFoundError(f"Judge rubric not found: {rubric_path}")
+
+    system = rubric_path.read_text(encoding="utf-8")
     user = (
         f"<rubric>\n{rubric_text}\n</rubric>\n\n"
         f"<context>\n{directory}\n</context>\n\n"

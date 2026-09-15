@@ -11,6 +11,8 @@ def test_arabic_injection_is_blocked():
     assert verdict is not None
     assert verdict.category == "injection_pattern"
 
+from munir.guards.input_guards import deterministic_checks
+from munir.guards.output_guards import OutputGuard
 
 def test_arabic_prompt_leak_is_blocked():
     """

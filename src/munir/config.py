@@ -11,7 +11,7 @@ from pathlib import Path
 import yaml
 from pydantic import BaseModel, Field
 
-CONFIG_PATH = Path(__file__).resolve().parents[1] / "configs" / "munir.yaml"
+CONFIG_PATH = Path(__file__).resolve().parents[2] / "configs" / "munir.yaml"
 
 
 class PriceRow(BaseModel):

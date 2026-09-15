@@ -272,10 +272,7 @@ def main() -> int:
         f"~{breakeven:,.0f} requests/month"
     )
 
-    print(
-        "\nNOTE: throughput is explicitly measured, "
-        "not a placeholder."
-    )
+    
 
     return 0
 

@@ -53,11 +53,7 @@ from pydantic import BaseModel, Field
 # Prompt storage location
 # ---------------------------------------------------------------------------
 
-PROMPTS_DIR = (
-    Path(__file__).resolve().parents[2]
-    / "prompts"
-    / "library"
-)
+PROMPTS_DIR = Path(__file__).resolve().parent / "library"
 
 
 # ===========================================================================
