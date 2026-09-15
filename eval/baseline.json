@@ -1,0 +1,25 @@
+{
+  "route": "default",
+  "pass_rate": 1.0,
+  "slices": {
+    "language": {
+      "ar": 1.0,
+      "en": 1.0
+    },
+    "intent": {
+      "escalate": 1.0,
+      "faq": 1.0,
+      "service": 1.0
+    },
+    "difficulty": {
+      "adversarial": 1.0,
+      "edge": 1.0,
+      "routine": 1.0
+    },
+    "risk": {
+      "normal": 1.0,
+      "safety": 1.0
+    }
+  },
+  "cases": 120
+}

@@ -1,0 +1,15 @@
+{"case_id":"h001","language":"en","answer":"The transcript fee is SAR 50 per copy, processed within 3 working days.","human_score":1.0}
+{"case_id":"h002","language":"en","answer":"The transcript fee is SAR 300 and takes two weeks.","human_score":0.0}
+{"case_id":"h003","language":"en","answer":"I don't have that fee in the trusted directory, please check with the Registrar's Office.","human_score":0.5}
+{"case_id":"h004","language":"en","answer":"Undergraduate tuition is SAR 9,000 per semester for full-time enrollment.","human_score":1.0}
+{"case_id":"h005","language":"en","answer":"Tuition is roughly SAR 12,500 depending on your program.","human_score":0.0}
+{"case_id":"h006","language":"ar","answer":"رسوم كشف الدرجات الرسمي هي 50 ريال لكل نسخة.","human_score":1.0}
+{"case_id":"h007","language":"ar","answer":"الرسوم غير متوفرة لدي، يرجى مراجعة مكتب القبول والتسجيل.","human_score":0.5}
+{"case_id":"h008","language":"ar","answer":"رسوم كشف الدرجات حوالي 200 ريال.","human_score":0.0}
+{"case_id":"h009","language":"en","answer":"Application fee is SAR 100, non-refundable, deadline July 15.","human_score":1.0}
+{"case_id":"h010","language":"en","answer":"Advising appointments cost SAR 25 per session.","human_score":0.0}
+{"case_id":"h011","language":"en","answer":"There is no fee for advising appointments -- they are free for enrolled students.","human_score":1.0}
+{"case_id":"h012","language":"ar","answer":"لا توجد رسوم للإضافة والحذف خلال أول أسبوعين من الفصل الدراسي.","human_score":1.0}
+{"case_id":"h013","language":"en","answer":"I'm not sure about the exact fee -- I'd guess somewhere between SAR 50 and SAR 100.","human_score":0.0}
+{"case_id":"h014","language":"ar","answer":"الرسوم الدراسية لبرنامج البكالوريوس هي 9000 ريال لكل فصل دراسي للتسجيل بدوام كامل.","human_score":1.0}
+{"case_id":"h015","language":"en","answer":"The application deadline is sometime in the summer, I believe around July.","human_score":0.5}

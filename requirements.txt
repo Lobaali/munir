@@ -1,3 +1,7 @@
 pydantic>=2.0
 pyyaml>=6.0
-tokenizers>=0.20
+pytest>=8.0
+structlog>=24.0
+tokenizers>=0.20.0
+# optional, only needed if you set backend: real in configs/munir.yaml
+openai>=1.0
