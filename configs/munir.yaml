@@ -1,5 +1,8 @@
-# munir.yaml is the ONE file that decides which model answers which alias,
+# munir.yaml -- the ONE file that decides which model answers which alias,
 # and what each model costs. Modeled on Murshid's configs/murshid.yaml.
+#
+# Changing which model backs "campus-flagship" is a one-line edit here --
+# never a code change. That's the whole point of the alias layer.
 
 primary_route: primary
 fallback_route: open_weight
@@ -15,6 +18,7 @@ routes:
       munir-default: campus-flagship
       munir-guard: campus-cheap
       munir-router: campus-cheap
+      munir-extract: campus-flagship  # ticket extraction quality matters -- the flagship tier
 
   cheap:
     dialect: openai
@@ -23,6 +27,7 @@ routes:
     api_key_env: MUNIR_CHEAP_API_KEY
     aliases:
       munir-default: campus-cheap
+      munir-extract: campus-cheap
 
   open_weight:
     dialect: openai
@@ -31,27 +36,32 @@ routes:
     api_key_env: MUNIR_OPENWEIGHT_API_KEY
     aliases:
       munir-default: campus-onprem
+      munir-extract: campus-onprem
 
-# Sourced Sept 2026: see README.md "Cost sources" for links + dates.
+# Sourced Sept 2026 -- see README.md "Cost sources" for links + dates.
+# Re-verify before any real submission date: OpenAI/Anthropic revise often,
+# and GPT-5.6 Sol's rate below is explicitly PROMOTIONAL (through Nov 21,
+# 2026) -- it reverts toward $5/$30 after that per the same sources.
 prices:
   models:
     campus-flagship:
       # modeled on GPT-5.6 Sol (OpenAI), $4.00/$20.00 USD per MTok,
       # promotional rate as of Sept 2026 -- source: benchlm.ai/openai/api-pricing,
-      # creditforstartups.com/pricing/openai-api-pricing 
+      # creditforstartups.com/pricing/openai-api-pricing (checked 2026-09-14)
       input_per_mtok: 15.00     # $4.00 * 3.75 SAR/USD
       output_per_mtok: 75.00    # $20.00 * 3.75
       cached_input_per_mtok: 1.50  # OpenAI cached input = 10% of standard input rate
     campus-cheap:
       # modeled on GPT-5.6 Luna (OpenAI), $0.20/$1.20 USD per MTok --
-      # same sources
+      # same sources, checked 2026-09-14
       input_per_mtok: 0.75      # $0.20 * 3.75
       output_per_mtok: 4.50     # $1.20 * 3.75
       cached_input_per_mtok: 0.075
     campus-onprem:
       # self-hosted: no per-token price sheet, only a GPU bill -- see
       # scripts/breakeven.py, which DERIVES this number from a real, sourced
-      # GPU rental rate (RunPod L4, $0.39/hr, source: runpod.io/product/cloud-gpus,) 
+      # GPU rental rate (RunPod L4, $0.39/hr, source: runpod.io/product/cloud-gpus,
+      # checked 2026-09-14) -- it is not looked up like the two rates above.
       # The figure below is scripts/breakeven.py's own illustrative default;
       # re-run it with YOUR measured tokens/sec before trusting this number.
       input_per_mtok: 1.82
